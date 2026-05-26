@@ -13,7 +13,7 @@ A lightweight, aggressive JavaScript utility designed to globally enforce custom
 
 ## 🛠️ How to Use
 
-### Method 1: Direct Integration (Recommended for Blogger/HTML Templates)
+### Direct Integration (Recommended for Blogger/HTML Templates)
 
 Copy the code below and paste it directly into your theme's HTML, right before the closing `</body>` tag:
 
