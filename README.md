@@ -1,44 +1,50 @@
-```markdown
 # Force Search Placeholder Script
 
-An aggressive, lightweight JavaScript utility designed to globally enforce custom placeholder text on stubborn search fields—especially useful for older blogger templates, legacy themes, or rigid third-party widgets.
+A lightweight, aggressive JavaScript utility designed to globally enforce custom, branded placeholder text on stubborn search fields. It is especially useful for older Blogger/Blogspot templates, legacy CMS themes, or rigid third-party widgets that ignore standard HTML5 attributes.
 
 ## 🚀 Features
-- **Aggressive Targeting:** Overwrites modern HTML5 placeholder attributes and legacy `value`-based search inputs.
-- **Conflict Prevention:** Strips out hardcoded inline `onfocus` and `onblur` handlers that cause layout jumping.
-- **Lightweight & Fast:** Pure vanilla JavaScript with zero dependencies.
+
+- **Aggressive Targeting:** Overwrites modern HTML5 `placeholder` attributes, HTML5 `search` inputs, and standard search form inputs simultaneously.
+- **Legacy Theme Fallback:** Automatically detects and replaces older theme configurations that hardcode text like `"Search this blog..."` into the input `value` field.
+- **Conflict Prevention:** Clears out disruptive, inline legacy JavaScript handlers (`onfocus` and `onblur`) to prevent old theme scripts from overwriting your custom text.
+- **Performance Optimized:** Runs seamlessly on `DOMContentLoaded` without relying on bulky external libraries like jQuery.
+
+---
 
 ## 🛠️ How to Use
 
-### Option 1: Direct Integration (Recommended)
-Copy the following code and paste it right before the closing `</body>` tag of your website template:
+### Method 1: Direct Integration (Recommended for Blogger/HTML Templates)
 
-\`\`\`html
+Copy the code below and paste it directly into your theme's HTML, right before the closing `</body>` tag:
+
+```html
 <script type='text/javascript'>
 //<![CDATA[
 function forceSearchPlaceholder(customText) {
     var textToUse = customText || 'Search...';
+    
+    // Target all potential search inputs
     var allInputs = document.querySelectorAll('input[type="search"], input[name="q"], .search input, input.search');
+    
     allInputs.forEach(function(input) {
+        // Enforce modern placeholder
         input.setAttribute('placeholder', textToUse);
-        if (/Search( this blog)?\.*/i.test(input.value)) { input.value = textToUse; }
+        
+        // Fix legacy hardcoded values (e.g., "Search this blog")
+        if (/Search( this blog)?\.*/i.test(input.value)) {
+            input.value = textToUse;
+        }
+        
+        // Remove inline script conflicts
         input.removeAttribute('onfocus');
         input.removeAttribute('onblur');
     });
 }
+
+// Run as soon as the DOM structure is safely loaded
 window.addEventListener('DOMContentLoaded', function() {
-    forceSearchPlaceholder('Your Custom Search Text Here');
+    // Change 'Search in Manula Nirwan Tech' to your website's name!
+    forceSearchPlaceholder('Search in Manula Nirwan Tech'); 
 });
 //]]>
 </script>
-\`\`\`
-
-### Option 2: External Script
-Download `placeholder-enforcer.js` from this repository, host it, and reference it in your HTML:
-
-\`\`\`html
-<script src="path/to/placeholder-enforcer.js"></script>
-\`\`\`
-
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
